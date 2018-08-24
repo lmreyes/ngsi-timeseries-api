@@ -136,6 +136,26 @@ in the Notification. Also, you will need attention to some other details you
 will have to discover on your own. This is not fully documented because it's not
 considered a common workflow.
 
+If you would like a quick way to insert dummy data to play with, you can use
+the [entities-simulator](https://github.com/smartsdk/entities-simulator).
+Assuming you deployed locally using docker-compose with the [docker-compose-dev.yml](https://raw.githubusercontent.com/smartsdk/ngsi-timeseries-api/master/docker/docker-compose-dev.yml)
+file, you can run the following commands.
+
+```
+docker run -ti --rm --name air-quality --network docker_default -e ORION_URL=http://orion:1026 -e ENTITY_TYPE="AirQualityObserved" -d smartsdk/entities-simulator
+docker run -ti --rm --name traffic-flow --network docker_default -e ORION_URL=http://orion:1026 -e ENTITY_TYPE="TrafficFlowObserved" -d smartsdk/entities-simulator
+```
+
+Otherwise, you may need to adjust the name of the networks and the `ORION_URL`
+parameter to match your deployment environment.
+
+That will only start sending data to Orion. You will have to create the
+subscriptions for such entities (as explained in previous sections) in order to
+see data in QuantumLeap.
+
+If you feel like trying something more sophisticated for dummy data generation,
+you can have a look at [FIWARE Device Simulator](https://fiware-device-simulator.readthedocs.io).
+
 ### Attributes DataType Translation
 
 You need to make sure your NGSI entities are using the valid NGSI types for the
