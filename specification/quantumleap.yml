@@ -1,7 +1,7 @@
 swagger: '2.0'  # For 3.0 see (https://github.com/zalando/connexion/issues/420)
 info:
   title: "QuantumLeap API"
-  version: "0.1.1"
+  version: "0.1.2"
 host: "localhost:8668"  # it'll run in the same container, hence localhost.
 basePath: /v2
 produces:
@@ -215,16 +215,14 @@ parameters:
     name: aggrPeriod
     type: string
     enum: [year, month, day, hour, minute, second]
-    description: "(This parameter is not yet supported) Optional. If not
-    defined, the aggregation will apply to all the values contained in the
-    search result.
-    If defined, the aggregation function will instead be applied N times,
-    once for each period, and all those results will be considered for the
-    result. For example, a query asking for the average temperature of an
-    attribute will typically return 1 value.
-    However, with an aggregationPeriod of day, you get the daily average of
-    the temperature instead (more than one value assuming you had
-    measurements across many days within the scope of your search result)"
+    description: "Optional. If not defined, the aggregation will apply to all
+     the values contained in the search result. If defined, the aggregation
+     function will instead be applied N times, once for each period, and all
+     those results will be considered for the response. For example, a query
+     asking for the average temperature of an attribute will typically return
+      1 value. However, with an aggregationPeriod of day, you get the daily
+      average of the temperature instead (more than one value assuming you
+      had measurements across many days within the scope of your search result)"
   aggrScope:
     in: query
     name: aggrScope
@@ -566,6 +564,7 @@ paths:
             application/json:
               {
                 "data": {
+                    # Return type!?
                     "entityId": "Kitchen1",
                     "attrName": "temperature",
                     "index": ["2018-01-05T15:44:34", "2018-01-06T15:44:59",
@@ -696,7 +695,8 @@ paths:
               {
                 "data": {
                   "entityId": "Kitchen1",
-                  "index": ["1510826981388", "1510826990438", "1510826999725"],
+                  "index": ["2018-01-05T15:44:34", "2018-01-06T15:44:59",
+                            "2018-01-07T15:44:59"],
                   "attributes": [
                     {
                       "attrName": "temperature",
@@ -808,7 +808,8 @@ paths:
             application/json:
               {
                 "data": {
-                  "index": ["1510826981388", "1510826990438", "1510826999725"],
+                  "index": ["2018-01-05T15:44:34", "2018-01-06T15:44:59",
+                            "2018-01-07T15:44:59"],
                   "values": [
                     {
                       "attrName": "temperature",
@@ -893,14 +894,14 @@ paths:
                   "entities": [
                     {
                       "entityId": "Kitchen1",
-                      "index": ["1510826981388", "1510826990438",
-                      "1510826999725"],
+                      "index": ["2018-01-05T15:44:34", "2018-01-06T15:44:59",
+                                "2018-01-07T15:44:59"],
                       "values": [24.1, 25.3, 26.7]
                     },
                     {
                       "entityId": "Room2",
-                      "index": ["1510826981388", "1510826990438",
-                      "1510826999725"],
+                      "index": ["2018-01-05T15:44:34", "2018-01-06T15:44:59",
+                                "2018-01-07T15:44:59"],
                       "values": [21.01, 20.9, 21.02]
                     }
                   ]
@@ -955,14 +956,14 @@ paths:
                   "values": [
                     {
                       "entityId": "Kitchen1",
-                      "index": ["1510826981388", "1510826990438",
-                      "1510826999725"],
+                      "index": ["2018-01-05T15:44:34", "2018-01-06T15:44:59",
+                                "2018-01-07T15:44:59"],
                       "values": [24.1, 25.3, 26.7]
                     },
                     {
                       "entityId": "Room2",
-                      "index": ["1510826981388", "1510826990438",
-                      "1510826999725"],
+                      "index": ["2018-01-05T15:44:34", "2018-01-06T15:44:59",
+                                "2018-01-07T15:44:59"],
                       "values": [21.01, 20.9, 21.02]
                     }
                   ]
@@ -1032,8 +1033,8 @@ paths:
                   "entities": [
                     {
                       "entityId": "Room1",
-                      "index": ["1510826981388", "1510826990438",
-                      "1510826999725"],
+                      "index": ["2018-01-05T15:44:34", "2018-01-06T15:44:59",
+                                "2018-01-07T15:44:59"],
                       "attributes": [
                         {
                           # TODO: How about defining the attrs order once?
@@ -1048,8 +1049,8 @@ paths:
                     },
                     {
                       "entityId": "Room2",
-                      "index": ["1510826981388", "1510826990438",
-                      "1510826999725"],
+                      "index": ["2018-01-05T15:44:34", "2018-01-06T15:44:59",
+                                "2018-01-07T15:44:59"],
                       "attributes": [
                         {
                           "attrName": "temperature",
@@ -1149,8 +1150,8 @@ paths:
                   "values": [
                     {
                       "entityId": "Room1",
-                      "index": ["1510826981388", "1510826990438",
-                      "1510826999725"],
+                      "index": ["2018-01-05T15:44:34", "2018-01-06T15:44:59",
+                                "2018-01-07T15:44:59"],
                       "attributes": [
                         {
                           # TODO: How about defining the attrs order once?
@@ -1165,8 +1166,8 @@ paths:
                     },
                     {
                       "entityId": "Room2",
-                      "index": ["1510826981388", "1510826990438",
-                      "1510826999725"],
+                      "index": ["2018-01-05T15:44:34", "2018-01-06T15:44:59",
+                                "2018-01-07T15:44:59"],
                       "attributes": [
                         {
                           "attrName": "temperature",
@@ -1247,14 +1248,16 @@ paths:
                       "entities": [
                         {
                           "entityId": "Room1",
-                          "index": ["1510826981388", "1510826990438",
-                          "1510826999725"],
+                          "index": ["2018-01-05T15:44:34",
+                                    "2018-01-06T15:44:59",
+                                    "2018-01-07T15:44:59"],
                           "values": [24.1, 25.3, 26.7]
                         },
                         {
                           "entityId": "Room2",
-                          "index": ["1510826981388", "1510826990438",
-                          "1510826999725"],
+                          "index": ["2018-01-05T15:44:34",
+                                    "2018-01-06T15:44:59",
+                                    "2018-01-07T15:44:59"],
                           "values": [22.1, 23.3, 25.7]
                         }
                       ]
@@ -1264,14 +1267,16 @@ paths:
                       "entities": [
                         {
                           "entityId": "DeviceInRoom1",
-                          "index": ["1510826981388", "1510826990438",
-                          "1510826999725"],
+                          "index": ["2018-01-05T15:44:34",
+                                    "2018-01-06T15:44:59",
+                                    "2018-01-07T15:44:59"],
                           "values": [24.1, 25.3, 26.7]
                         },
                         {
                           "entityId": "DeviceInRoom2",
-                          "index": ["1510826981388", "1510826990438",
-                          "1510826999725"],
+                          "index": ["2018-01-05T15:44:34",
+                                    "2018-01-06T15:44:59",
+                                    "2018-01-07T15:44:59"],
                           "values": [22.1, 23.3, 25.7]
                         }
                       ]
@@ -1344,14 +1349,16 @@ paths:
                       "entities": [
                         {
                           "entityId": "Room1",
-                          "index": ["1510826981388", "1510826990438",
-                          "1510826999725"],
+                          "index": ["2018-01-05T15:44:34",
+                                    "2018-01-06T15:44:59",
+                                    "2018-01-07T15:44:59"],
                           "values": [24.1, 25.3, 26.7]
                         },
                         {
                           "entityId": "Room2",
-                          "index": ["1510826981388", "1510826990438",
-                          "1510826999725"],
+                          "index": ["2018-01-05T15:44:34",
+                                    "2018-01-06T15:44:59",
+                                    "2018-01-07T15:44:59"],
                           "values": [22.1, 23.3, 25.7]
                         }
                       ]
@@ -1361,14 +1368,16 @@ paths:
                       "entities": [
                         {
                           "entityId": "DeviceInRoom1",
-                          "index": ["1510826981388", "1510826990438",
-                          "1510826999725"],
+                          "index": ["2018-01-05T15:44:34",
+                                    "2018-01-06T15:44:59",
+                                    "2018-01-07T15:44:59"],
                           "values": [24.1, 25.3, 26.7]
                         },
                         {
                           "entityId": "DeviceInRoom2",
-                          "index": ["1510826981388", "1510826990438",
-                          "1510826999725"],
+                          "index": ["2018-01-05T15:44:34",
+                                    "2018-01-06T15:44:59",
+                                    "2018-01-07T15:44:59"],
                           "values": [22.1, 23.3, 25.7]
                         }
                       ]
@@ -1447,14 +1456,16 @@ paths:
                           "entities": [
                             {
                               "entityId": "Room1",
-                              "index": ["1510826981388", "1510826990438",
-                              "1510826999725"],
+                              "index": ["2018-01-05T15:44:34",
+                                        "2018-01-06T15:44:59",
+                                        "2018-01-07T15:44:59"],
                               "values": [24.1, 25.3, 26.7]
                             },
                             {
                               "entityId": "Room2",
-                              "index": ["1510826981388", "1510826990438",
-                              "1510826999725"],
+                              "index": ["2018-01-05T15:44:34",
+                                        "2018-01-06T15:44:59",
+                                        "2018-01-07T15:44:59"],
                               "values": [22.1, 23.3, 25.7]
                             }
                           ]
@@ -1464,14 +1475,16 @@ paths:
                           "entities": [
                             {
                               "entityId": "DeviceInRoom1",
-                              "index": ["1510826981388", "1510826990438",
-                              "1510826999725"],
+                              "index": ["2018-01-05T15:44:34",
+                                        "2018-01-06T15:44:59",
+                                        "2018-01-07T15:44:59"],
                               "values": [24.1, 25.3, 26.7]
                             },
                             {
                               "entityId": "DeviceInRoom2",
-                              "index": ["1510826981388", "1510826990438",
-                              "1510826999725"],
+                              "index": ["2018-01-05T15:44:34",
+                                        "2018-01-06T15:44:59",
+                                        "2018-01-07T15:44:59"],
                               "values": [22.1, 23.3, 25.7]
                             }
                           ]
@@ -1553,14 +1566,16 @@ paths:
                           "entities": [
                             {
                               "entityId": "Room1",
-                              "index": ["1510826981388", "1510826990438",
-                              "1510826999725"],
+                              "index": ["2018-01-05T15:44:34",
+                                        "2018-01-06T15:44:59",
+                                        "2018-01-07T15:44:59"],
                               "values": [24.1, 25.3, 26.7]
                             },
                             {
                               "entityId": "Room2",
-                              "index": ["1510826981388", "1510826990438",
-                              "1510826999725"],
+                              "index": ["2018-01-05T15:44:34",
+                                        "2018-01-06T15:44:59",
+                                        "2018-01-07T15:44:59"],
                               "values": [22.1, 23.3, 25.7]
                             }
                           ]
@@ -1570,14 +1585,16 @@ paths:
                           "entities": [
                             {
                               "entityId": "DeviceInRoom1",
-                              "index": ["1510826981388", "1510826990438",
-                              "1510826999725"],
+                              "index": ["2018-01-05T15:44:34",
+                                        "2018-01-06T15:44:59",
+                                        "2018-01-07T15:44:59"],
                               "values": [24.1, 25.3, 26.7]
                             },
                             {
                               "entityId": "DeviceInRoom2",
-                              "index": ["1510826981388", "1510826990438",
-                              "1510826999725"],
+                              "index": ["2018-01-05T15:44:34",
+                                        "2018-01-06T15:44:59",
+                                        "2018-01-07T15:44:59"],
                               "values": [22.1, 23.3, 25.7]
                             }
                           ]
